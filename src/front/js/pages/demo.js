@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Context } from "../store/appContext";
+import Login from "./login.jsx";
 
 export const Demo = () => {
 	const { store, actions } = useContext(Context);
@@ -36,6 +37,7 @@ export const Demo = () => {
 			<Link to="/">
 				<button className="btn btn-primary">Back home</button>
 			</Link>
+
 		</div>
 	);
 };
