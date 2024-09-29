@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('/login', {
+            const response = await fetch(`/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit btn btn-primary">Login</button>
             </form>
         </div>
     );

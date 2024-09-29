@@ -8,11 +8,16 @@ import { useNavigate } from "react-router-dom";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
+
 	const handleLogin = () =>{
 		navigate('/login');
 	}
+	const handleSignup = () =>{
+		navigate('/signup');
+	}
 
 	return (
+		<>
 		<div className="text-center mt-5">
 			<h1>Hello Rigo!!</h1>
 			<p>
@@ -27,8 +32,10 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
-			<button onClick = {handleLogin}>log in </button>
+			<button type="btn btn-primary" onClick = {handleLogin}>log in </button>
+			<button type="btn btn-primary" onClick = {handleSignup}>sign up </button>
 			
 		</div>
+		</>
 	);
 };
