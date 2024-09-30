@@ -1,4 +1,4 @@
-import react, {useEffect} from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 ;
 const Private = () => {
@@ -16,11 +16,18 @@ const Private = () => {
 
     return(
         <>
-        <div>
-            <h1>this is the private view</h1>
-        </div>
-
-        <button onClick={handleLogout}>Log out</button>
+            <div className="container my-5">
+                <div className="card p-5 shadow text-center">
+                    <h1 className="mb-4">Welcome to the Private View</h1>
+                    <button 
+                        type="button" 
+                        className="btn btn-danger mt-4" 
+                        onClick={handleLogout}
+                    >
+                        Log Out
+                    </button>
+                </div>
+            </div>
         </>
     )
 }

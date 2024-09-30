@@ -12,9 +12,7 @@ export const Home = () => {
 	const handleLogin = () =>{
 		navigate('/login');
 	}
-	const handleSignup = () =>{
-		navigate('/signup');
-	}
+
 
 	return (
 		<>
@@ -33,7 +31,7 @@ export const Home = () => {
 				</a>
 			</p>
 			<button type="button" className="btn btn-primary" onClick = {handleLogin}>log in </button>
-			<button type="button" className="btn btn-primary" onClick = {handleSignup}>sign up </button>
+
 			
 		</div>
 		</>

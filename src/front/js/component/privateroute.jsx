@@ -1,13 +1,11 @@
-import React, { Children } from "react";
+import React, { Children, useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 const PrivateRoute = ({children}) => {
-    const token = sessionStorage.getItem('token');
+    const { store } = useContext(Context)
 
-    if (!token){
-        return <Navigate to="/"/>
-    }
-    return children;
+    return store.token ? children : <Navigate to="/login"/>
 }
 
 export default PrivateRoute;

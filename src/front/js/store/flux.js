@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: null,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,9 +47,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			login: async (email, password) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ email, password }),
+					});
+			
+					const data = await response.json();
+			
+					if (response.ok) {
+						sessionStorage.setItem('token', data.token);
+						setStore({ token: data.token });
+						return { success: true };
+					} else {
+						return { success: false, msg: data.msg };
+					}
+				} catch (error) {
+					console.error('Error:', error);
+					return { success: false, msg: 'An error occurred. Please try again later.' };
+				}
+			},
+			
+			logout: () => {
+				sessionStorage.removeItem('token');
+				setStore({ token: null });
+			},
+			
+			checkAuth: () => {
+				const token = sessionStorage.getItem('token');
+				if (token) {
+					setStore({ token });
+				}
+			},
+			signup: async (email, password) => {
+				try {
+					console.log("Attempting signup...");
+					const response = await fetch(`${process.env.BACKEND_URL}/api/signup`, {
+						method: 'POST',
+						headers: { 
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ email, password }),
+					});
+			
+					console.log("Response status:", response.status);
+					const data = await response.json();
+					console.log("Response data:", data);
+			
+					if (!response.ok) {
+						throw new Error(data.msg || `HTTP error! status: ${response.status}`);
+					}
+			
+					return { success: true, data };
+				} catch (error) {
+					console.error('Signup error:', error);
+					return { success: false, msg: error.message || 'An error occurred. Please try again later.' };
+				}
 			}
 		}
-	};
+	}
 };
 
 export default getState;

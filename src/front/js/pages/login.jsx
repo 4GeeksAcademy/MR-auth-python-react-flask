@@ -1,65 +1,63 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Context } from "../store/appContext"
 
 const Login = () => {
+    const { actions } = useContext(Context)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
 
+    useEffect(()=>{
+        const token = sessionStorage.getItem('token');
+        if (token){
+            navigate('/private');
+        }
+    },[navigate])
+
+    const handleSignup = () =>{
+		navigate('/signup');
+	}
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        try {
-            const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                sessionStorage.setItem('token', data.token);
-                navigate('/private');
-            } else {
-                console.error('Login failed:', data.msg);
-                alert('Please check your email and password');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. please try again later');
+        const result = await actions.login(email, password);
+        if (result.success) {
+            navigate('/private');
+        } else {
+            alert(result.msg);
         }
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+        <>
+        <div className="container my-5">
+            <div className="card p-5 shadow text-center">
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        type="email"  
+                        value={email} 
+                        placeholder="Email" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        className="form-control my-3"
                     />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        className="form-control my-3"
                     />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
+                    <div className="mt-5">
+                        <button type="submit" className="btn btn-primary mx-5">Login</button>
+                    <button type="button" className="btn btn-primary" onClick = {handleSignup}>sign up </button>
+                    </div>
+
+                </form>
+            </div>
         </div>
+    </>
     );
 };
 

@@ -12,7 +12,8 @@ import logging
 
 
 api = Blueprint('api', __name__)
-CORS(api)
+CORS(api, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE"]}})
+
 
 logging.getLogger('flask_cors').level = logging.DEBUG
 # Allow CORS requests to this API
@@ -38,8 +39,14 @@ def handle_hello():
 @api.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
+    if not data:
+        return jsonify({"msg": "No input data provided"}), 400
+
     email = data.get('email')
     password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"msg": "Email and password are required"}), 400
 
     user_exists = User.query.filter_by(email=email).first()
     if user_exists:
@@ -56,8 +63,14 @@ def signup():
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
+    if not data:
+        return jsonify({"msg": "No input data provided"}), 400
+
     email = data.get('email')
     password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"msg": "Email and password are required"}), 400
     
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password_hash, password):
