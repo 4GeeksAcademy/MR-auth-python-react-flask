@@ -32,8 +32,8 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
-			<button type="btn btn-primary" onClick = {handleLogin}>log in </button>
-			<button type="btn btn-primary" onClick = {handleSignup}>sign up </button>
+			<button type="button" className="btn btn-primary" onClick = {handleLogin}>log in </button>
+			<button type="button" className="btn btn-primary" onClick = {handleSignup}>sign up </button>
 			
 		</div>
 		</>

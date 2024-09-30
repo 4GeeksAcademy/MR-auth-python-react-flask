@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`/api/login`, {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit btn btn-primary">Login</button>
+                <button type="submit" className="btn btn-primary">Login</button>
             </form>
         </div>
     );
